@@ -1,12 +1,12 @@
 package br.com.kafkademo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Serializable;
-import java.util.Random;
+import java.util.stream.IntStream;
 
 @RestController
 public class TestController {
@@ -18,8 +18,11 @@ public class TestController {
 //    private KafkaTemplate<String, Serializable> jsonKafkaTemplate;
 
     @GetMapping("send")
-    public void send() {
-        kafkaTemplate.send("topic-1", "Olá Mundo");
+    public ResponseEntity<?> send() {
+        IntStream.range(1, 50).boxed().forEach(n ->
+                kafkaTemplate.send("topic-1", "Número: " + n));
+
+        return ResponseEntity.ok().build();
     }
 
 //    @GetMapping("send-person")
