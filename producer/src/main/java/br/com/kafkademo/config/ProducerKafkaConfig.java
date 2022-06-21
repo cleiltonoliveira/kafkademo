@@ -38,20 +38,19 @@ public class ProducerKafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-//    @Bean
-//    public ProducerFactory<String, Object> jsonProducerFactory() {
-//        var configs = new HashMap<String, Object>();
-//        configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-//        configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-//        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-//        return new DefaultKafkaProducerFactory<>(configs, new StringSerializer(), new JsonSerializer<>());
-//    }
+    @Bean
+    public ProducerFactory<String, Object> jsonProducerFactory() {
+        var configs = new HashMap<String, Object>();
+        configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configs, new StringSerializer(), new JsonSerializer<>());
+    }
 
-//    @Bean
-//    public KafkaTemplate<String, Serializable> jsonKafkaTemplate() {
-//        return new KafkaTemplate(jsonProducerFactory());
-//    }
-
+    @Bean
+    public KafkaTemplate<String, Serializable> jsonKafkaTemplate() {
+        return new KafkaTemplate(jsonProducerFactory());
+    }
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -60,14 +59,6 @@ public class ProducerKafkaConfig {
         return new KafkaAdmin(configs);
     }
 
-//    @Bean
-//    public NewTopic topic1() {
-//        return new NewTopic("topic-1", 2, Short.valueOf("1"));
-//        //2.6
-////        return TopicBuilder.name("topic-1").build();
-//    }
-
-//    2.7
     @Bean
     public KafkaAdmin.NewTopics topics() {
         return new KafkaAdmin.NewTopics(
@@ -75,6 +66,4 @@ public class ProducerKafkaConfig {
                 TopicBuilder.name("person-topic").partitions(2).build()
         );
     }
-
-
 }
