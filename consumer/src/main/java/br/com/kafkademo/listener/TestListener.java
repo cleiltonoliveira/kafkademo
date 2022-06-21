@@ -10,12 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestListener {
 
-    @KafkaListener(topics = "topic-1", groupId = "group-1")
+    @KafkaListener(topics = "topic-1", groupId = "group-1", concurrency = "2")
     public void listen(String message) {
-        log.info(message);
+        log.info("Thread: {} Message: {}", Thread.currentThread().getId(), message);
     }
 
-    //    @KafkaListener(topics = "person-topic", groupId = "group-1", containerFactory = "personKafkaListenerContainerFactory")
     @PersonCustomListener(groupId = "group-1")
     public void create(Person person) {
         log.info("Thread: {}", Thread.currentThread().getId());
