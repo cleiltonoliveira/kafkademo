@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8719f8b0-54eb-4af5-a7f1-de0fa1e994fd" name="Changes" comment="Capturing metadata in listener">
-      <change afterPath="$PROJECT_DIR$/consumer/src/main/java/br/com/kafkademo/model/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/producer/src/main/java/br/com/kafkademo/model/Person.java" afterDir="false" />
+    <list default="true" id="8719f8b0-54eb-4af5-a7f1-de0fa1e994fd" name="Changes" comment="Serialization and deserialization of objects">
+      <change afterPath="$PROJECT_DIR$/consumer/src/main/java/br/com/kafkademo/custom/PersonCustomListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consumer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/consumer/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consumer/src/main/java/br/com/kafkademo/config/ConsumerKafkaConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/consumer/src/main/java/br/com/kafkademo/config/ConsumerKafkaConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/consumer/src/main/java/br/com/kafkademo/listener/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/consumer/src/main/java/br/com/kafkademo/listener/TestListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/producer/src/main/java/br/com/kafkademo/config/ProducerKafkaConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/producer/src/main/java/br/com/kafkademo/config/ProducerKafkaConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/producer/src/main/java/br/com/kafkademo/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/producer/src/main/java/br/com/kafkademo/controller/TestController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +18,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -40,7 +36,9 @@
     </option>
   </component>
   <component name="ProjectId" id="2AhvL0B7D37KtAP5UJuicjnnoLa" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -172,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655817170164</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Serialization and deserialization of objects">
+      <created>1655819973670</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1655819973670</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -193,6 +198,7 @@
     <MESSAGE value="Running with two consumers" />
     <MESSAGE value="Running with two consumers and broadcasting messages" />
     <MESSAGE value="Capturing metadata in listener" />
-    <option name="LAST_COMMIT_MESSAGE" value="Capturing metadata in listener" />
+    <MESSAGE value="Serialization and deserialization of objects" />
+    <option name="LAST_COMMIT_MESSAGE" value="Serialization and deserialization of objects" />
   </component>
 </project>
