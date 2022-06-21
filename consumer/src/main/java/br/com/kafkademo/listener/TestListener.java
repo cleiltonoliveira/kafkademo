@@ -1,6 +1,7 @@
 package br.com.kafkademo.listener;
 
 import br.com.kafkademo.custom.PersonCustomListener;
+import br.com.kafkademo.model.City;
 import br.com.kafkademo.model.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -33,15 +34,15 @@ public class TestListener {
 //        log.info("Partition 1-9: {} Message: {}", partitionId, message);
 //    }
 
-//    @PersonCustomListener(groupId = "group-1")
-//    public void create(Person person) {
+    @PersonCustomListener(groupId = "group-1")
+    public void create(Person person) {
 //        log.info("Thread: {}", Thread.currentThread().getId());
-//        log.info("Person : {}", person);
-//    }
-//
-//    @PersonCustomListener(groupId = "group-2")
-//    public void history(Person person) {
+        log.info("Create person: {}", person);
+    }
+
+    @KafkaListener(topics = "city-topic", groupId = "group-1", containerFactory = "jsonKafkaListenerContainerFactory")
+    public void create(City city) {
 //        log.info("Thread: {}", Thread.currentThread().getId());
-//        log.info("History : {}", person);
-//    }
+        log.info("Create city : {}", city);
+    }
 }

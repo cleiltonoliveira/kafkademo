@@ -1,15 +1,14 @@
 package br.com.kafkademo.controller;
 
+import br.com.kafkademo.model.City;
 import br.com.kafkademo.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 @RestController
 public class TestController {
@@ -36,6 +35,11 @@ public class TestController {
     @GetMapping("send-person")
     public void sendPerson() {
         jsonKafkaTemplate.send("person-topic", new Person("João", new Random().nextInt(50)));
+    }
+
+    @GetMapping("send-city")
+    public void sendCity() {
+        jsonKafkaTemplate.send("city-topic", new City("Iraquara", "BA"));
     }
 
 }
