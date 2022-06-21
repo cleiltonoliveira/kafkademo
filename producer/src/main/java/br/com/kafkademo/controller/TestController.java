@@ -22,7 +22,9 @@ public class TestController {
 
     @GetMapping("send")
     public void send() {
-        kafkaTemplate.send("topic-1", "Olá mundo");
+        IntStream.range(0, 51)
+                .boxed()
+                .forEach(n -> kafkaTemplate.send("topic-1", "Number: " + n));
     }
 
     @GetMapping("send-person")
