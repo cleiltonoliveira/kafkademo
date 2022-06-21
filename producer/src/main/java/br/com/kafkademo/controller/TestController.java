@@ -22,14 +22,15 @@ public class TestController {
 
     @GetMapping("send")
     public void send() {
-        IntStream.range(0, 51)
-                .boxed()
-                .forEach(n -> kafkaTemplate.send("topic-1", "Number: " + n));
+//        IntStream.range(0, 51)
+//                .boxed()
+//                .forEach(n -> kafkaTemplate.send("topic-1", "Number: " + n));
+        kafkaTemplate.send("topic-1", "Teste do topíc-1");
     }
 
     @GetMapping("send-2")
     public void send2() {
-        kafkaTemplate.send("my-topic", "Test");
+        kafkaTemplate.send("my-topic", "Teste do my-topic");
     }
 
     @GetMapping("send-person")
