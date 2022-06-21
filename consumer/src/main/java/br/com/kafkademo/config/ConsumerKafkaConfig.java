@@ -1,6 +1,7 @@
 package br.com.kafkademo.config;
 
 import br.com.kafkademo.model.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,6 +16,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.RecordInterceptor;
 import org.springframework.kafka.support.converter.JsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
@@ -22,6 +24,7 @@ import java.util.HashMap;
 
 @EnableKafka
 @Configuration
+@Slf4j
 public class ConsumerKafkaConfig {
 
     @Autowired
@@ -43,6 +46,7 @@ public class ConsumerKafkaConfig {
         factory.setConcurrency(2);
         return factory;
     }
+
     @Bean
     public ConsumerFactory jsonConsumerFactory() {
         var configs = new HashMap<String, Object>();
@@ -58,5 +62,33 @@ public class ConsumerKafkaConfig {
         factory.setConsumerFactory(jsonConsumerFactory());
         factory.setMessageConverter(new JsonMessageConverter());
         return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, Person> personConsumerFactory() {
+        var configs = new HashMap<String, Object>();
+        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        var jsonDeserializer = new JsonDeserializer<>(Person.class)
+                .trustedPackages("*")
+                .forKeys();
+        return new DefaultKafkaConsumerFactory<>(configs, new StringDeserializer(), jsonDeserializer);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Person> personKafkaListenerContainerFactory() {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, Person>();
+        factory.setConsumerFactory(personConsumerFactory());
+        factory.setRecordInterceptor(adultInterceptor());
+        return factory;
+    }
+
+    private RecordInterceptor<String, Person> adultInterceptor() {
+        return record -> {
+            log.info("Record: {}", record);
+            var person = record.value();
+            return person.getAge() >= 18 ? record : null;
+        };
     }
 }
