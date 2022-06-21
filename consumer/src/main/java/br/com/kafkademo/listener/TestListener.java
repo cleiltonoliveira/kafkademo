@@ -19,11 +19,6 @@ public class TestListener {
         log.info("Thread: {} Message: {}", Thread.currentThread().getId(), message);
     }
 
-    @KafkaListener(topics = "my-topic", groupId = "my-group")
-    public void listen2(String message) {
-        log.info("Thread: {} Message: {}", Thread.currentThread().getId(), message);
-    }
-
 //    @KafkaListener(groupId = "my-group", topicPartitions = {@TopicPartition(topic = "my-topic", partitions = "0")})
 //    public void listen2(String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId) {
 //        log.info("Partition 0: {} Message: {}", partitionId, message);

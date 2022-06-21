@@ -43,7 +43,7 @@ public class ConsumerKafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setConcurrency(2);
+//        factory.setConcurrency(2);
         return factory;
     }
 
@@ -80,7 +80,7 @@ public class ConsumerKafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Person> personKafkaListenerContainerFactory() {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, Person>();
         factory.setConsumerFactory(personConsumerFactory());
-        factory.setRecordInterceptor(adultInterceptor());
+//        factory.setRecordInterceptor(adultInterceptor());
         return factory;
     }
 
