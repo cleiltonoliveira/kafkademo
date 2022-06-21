@@ -19,8 +19,8 @@ public class TestController {
 
     @GetMapping("send")
     public ResponseEntity<?> send() {
-        IntStream.range(1, 50).boxed().forEach(n ->
-                kafkaTemplate.send("topic-1", "Número: " + n));
+        IntStream.range(1, 10).boxed().forEach(n ->
+                kafkaTemplate.send("topic-1", " Message: " + n));
 
         return ResponseEntity.ok().build();
     }
