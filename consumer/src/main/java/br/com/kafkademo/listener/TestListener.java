@@ -36,7 +36,12 @@ public class TestListener {
     public void create(Person person) {
 //        log.info("Thread: {}", Thread.currentThread().getId());
         log.info("Create person: {}", person);
-        throw  new RuntimeException("Test Exception");
+        throw new RuntimeException("Test Exception");
+    }
+
+    @PersonCustomListener(topics = "person-topic.DLT", groupId = "group-1")
+    public void dlt(Person person) {
+        log.info("DLT: {}", person);
     }
 
     @KafkaListener(topics = "city-topic", groupId = "group-1", containerFactory = "jsonKafkaListenerContainerFactory")
