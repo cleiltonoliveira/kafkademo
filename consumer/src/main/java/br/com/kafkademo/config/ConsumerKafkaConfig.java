@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
-import org.springframework.kafka.listener.CommonErrorHandler;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.listener.RecordInterceptor;
@@ -49,7 +48,6 @@ public class ConsumerKafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
         factory.setConsumerFactory(consumerFactory());
-//        factory.setConcurrency(2);
         factory.setBatchListener(true);
         return factory;
     }
@@ -67,7 +65,6 @@ public class ConsumerKafkaConfig {
     public ConcurrentKafkaListenerContainerFactory jsonKafkaListenerContainerFactory() {
         var factory = new ConcurrentKafkaListenerContainerFactory();
         factory.setConsumerFactory(jsonConsumerFactory());
-//        factory.setMessageConverter(new JsonMessageConverter());
         factory.setMessageConverter(new BatchMessagingMessageConverter(new JsonMessageConverter()));
         factory.setBatchListener(true);
         return factory;
@@ -97,7 +94,7 @@ public class ConsumerKafkaConfig {
 
     private DefaultErrorHandler defaultErrorHandler() {
         var recoverer = new DeadLetterPublishingRecoverer(new KafkaTemplate<>(pf()), (consumerRecord, e) -> new TopicPartition(consumerRecord.topic() + ".DLT", -1));
-        return new DefaultErrorHandler(recoverer, new FixedBackOff(1000l, 2));
+        return new DefaultErrorHandler(recoverer, new FixedBackOff(1000L, 2));
     }
 
     public ProducerFactory<String, Person> pf() {
@@ -109,7 +106,7 @@ public class ConsumerKafkaConfig {
     }
 
     private RecordInterceptor<String, Person> exampleInterceptor() {
-        return new RecordInterceptor<String, Person>() {
+        return new RecordInterceptor<>() {
             @Override
             public ConsumerRecord<String, Person> intercept(ConsumerRecord<String, Person> record) {
                 return record;
@@ -127,11 +124,11 @@ public class ConsumerKafkaConfig {
         };
     }
 
-//    private RecordInterceptor<String, Person> adultInterceptor() {
-//        return record -> {
-//            log.info("Record: {}", record);
-//            var person = record.value();
-//            return person.getAge() >= 18 ? record : null;
-//        };
-//    }
+    private RecordInterceptor<String, Person> adultInterceptor() {
+        return record -> {
+            log.info("Record: {}", record);
+            var person = record.value();
+            return person.getAge() >= 18 ? record : null;
+        };
+    }
 }

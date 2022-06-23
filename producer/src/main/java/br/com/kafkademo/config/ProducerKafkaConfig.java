@@ -32,11 +32,6 @@ public class ProducerKafkaConfig {
         return new DefaultKafkaProducerFactory<>(configs);
     }
 
-//    @Bean
-//    public KafkaTemplate<String, String> kafkaTemplate() {
-//        return new KafkaTemplate<>(producerFactory());
-//    }
-
     @Bean
     public RoutingKafkaTemplate routingKafkaTemplate(GenericApplicationContext context, ProducerFactory producerFactory) {
         var jsonProducerFactory = jsonProducerFactory();
@@ -48,7 +43,6 @@ public class ProducerKafkaConfig {
         return new RoutingKafkaTemplate(map);
     }
 
-    //    @Bean
     public ProducerFactory jsonProducerFactory() {
         var configs = new HashMap<String, Object>();
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
@@ -56,11 +50,6 @@ public class ProducerKafkaConfig {
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configs, new StringSerializer(), new JsonSerializer<>());
     }
-
-//    @Bean
-//    public KafkaTemplate<String, Serializable> jsonKafkaTemplate() {
-//        return new KafkaTemplate(jsonProducerFactory());
-//    }
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
