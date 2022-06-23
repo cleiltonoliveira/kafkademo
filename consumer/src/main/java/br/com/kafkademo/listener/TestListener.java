@@ -33,15 +33,15 @@ public class TestListener {
 //    }
 
     @PersonCustomListener(groupId = "group-1")
-    public void create(Person person) {
+    public void create(Person person, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) long partitionId) {
 //        log.info("Thread: {}", Thread.currentThread().getId());
-        log.info("Create person: {}", person);
+        log.info("Create person: {} Partition {}", person, partitionId);
         throw new RuntimeException("Test Exception");
     }
 
     @PersonCustomListener(topics = "person-topic.DLT", groupId = "group-1")
-    public void dlt(Person person) {
-        log.info("DLT: {}", person);
+    public void dlt(Person person, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) long partitionId) {
+        log.info("DLT: {} Partition {}", person, partitionId);
     }
 
     @KafkaListener(topics = "city-topic", groupId = "group-1", containerFactory = "jsonKafkaListenerContainerFactory")
