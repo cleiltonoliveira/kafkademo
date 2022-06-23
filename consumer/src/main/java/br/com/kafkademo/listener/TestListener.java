@@ -36,6 +36,7 @@ public class TestListener {
     public void create(Person person) {
 //        log.info("Thread: {}", Thread.currentThread().getId());
         log.info("Create person: {}", person);
+        throw  new RuntimeException("Test Exception");
     }
 
     @KafkaListener(topics = "city-topic", groupId = "group-1", containerFactory = "jsonKafkaListenerContainerFactory")

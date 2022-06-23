@@ -2,7 +2,9 @@ package br.com.kafkademo.config;
 
 import br.com.kafkademo.model.Person;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -84,15 +86,35 @@ public class ConsumerKafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Person> personKafkaListenerContainerFactory() {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, Person>();
         factory.setConsumerFactory(personConsumerFactory());
+        factory.setRecordInterceptor(exampleInterceptor());
 //        factory.setRecordInterceptor(adultInterceptor());
         return factory;
     }
 
-    private RecordInterceptor<String, Person> adultInterceptor() {
-        return record -> {
-            log.info("Record: {}", record);
-            var person = record.value();
-            return person.getAge() >= 18 ? record : null;
+    private RecordInterceptor<String, Person> exampleInterceptor() {
+        return  new RecordInterceptor<String, Person>() {
+            @Override
+            public ConsumerRecord<String, Person> intercept(ConsumerRecord<String, Person> record) {
+                return record;
+            }
+
+            @Override
+            public void success(ConsumerRecord<String, Person> record, Consumer<String, Person> consumer) {
+               log.info("success");
+            }
+
+            @Override
+            public void failure(ConsumerRecord<String, Person> record, Exception exception, Consumer<String, Person> consumer) {
+                log.info("Failure");
+            }
         };
     }
+
+//    private RecordInterceptor<String, Person> adultInterceptor() {
+//        return record -> {
+//            log.info("Record: {}", record);
+//            var person = record.value();
+//            return person.getAge() >= 18 ? record : null;
+//        };
+//    }
 }
